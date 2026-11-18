@@ -1,0 +1,64 @@
+{
+  "name": "context7-enforcer",
+  "version": "0.1.0",
+  "description": "Automatically retrieves up-to-date library docs through the existing Context7 MCP server and injects them before Claude works; optional strict mode blocks code edits until docs were retrieved.",
+  "license": "MIT",
+  "author": {
+    "name": "context7-enforcer authors"
+  },
+  "userConfig": {
+    "mode": {
+      "type": "string",
+      "title": "Enforcement mode",
+      "description": "advisory: inject docs automatically. strict: also block code edits until docs for the detected libraries were retrieved. disabled: do nothing.",
+      "default": "advisory",
+      "options": [
+        "advisory",
+        "strict",
+        "disabled"
+      ]
+    },
+    "server": {
+      "type": "string",
+      "title": "Context7 MCP server",
+      "description": "Name of the existing Context7 server as /mcp lists it. Never installed or started by this mod.",
+      "default": "plugin:context7:context7"
+    },
+    "fallbackServer": {
+      "type": "string",
+      "title": "Fallback Context7 server",
+      "description": "Existing server tried when the primary is unreachable. Leave empty to disable the fallback.",
+      "default": "claude.ai Context7"
+    },
+    "cacheTtlHours": {
+      "type": "number",
+      "title": "Cache lifetime (hours)",
+      "description": "How long a successful lookup is reused. 0 disables the cache.",
+      "default": 24
+    },
+    "maxLibraries": {
+      "type": "number",
+      "title": "Libraries per task",
+      "description": "Most libraries looked up for one prompt (1-8).",
+      "default": 3
+    },
+    "timeoutMs": {
+      "type": "number",
+      "title": "Lookup timeout (ms)",
+      "description": "Each MCP call is abandoned after this long, so a slow server cannot stall the prompt.",
+      "default": 15000
+    },
+    "maxDocChars": {
+      "type": "number",
+      "title": "Documentation budget (characters)",
+      "description": "Total documentation injected per task, split across libraries.",
+      "default": 16000
+    },
+    "cooldownSec": {
+      "type": "number",
+      "title": "Failure cooldown (seconds)",
+      "description": "After a rate limit or an unreachable server, further lookups are skipped for this long.",
+      "default": 60
+    }
+  }
+}
